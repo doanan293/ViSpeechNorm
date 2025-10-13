@@ -1,0 +1,6 @@
+.github
+.vscode
+requirements.txt
+test.ipynb
+setup.cfg
+LICENSE
