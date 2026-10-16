@@ -1,34 +1,37 @@
+"""Roman numerals up to 39, e.g. "thế kỷ XX" -> "thế kỷ hai mươi"."""
+
 import re
 
-from speech_text_normalizer.vi_number import number_to_words as n2w
-from speech_text_normalizer.symbols import vietnamese_re
+from speech_text_normalizer.symbols import NOT_WORD
+from speech_text_normalizer.vi_number import number_to_words
 
-_quotes_symbol = r"(\"|\')?"
-_space = r"(\s)"
-_roman_number_re = r"(\b(?!LLC)(?=[MDCLXVI]+\b)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})\b)"
-_true_letter_re = r"(chữ|chữ cái|kí tự|ký tự)" + _space + _quotes_symbol + r"([A-Z]+)" + _quotes_symbol + vietnamese_re
-
-
-def _expand_roman(match):
-    # from https://stackoverflow.com/questions/19308177/converting-roman-numerals-to-integers-in-python
-    roman_numerals = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}
-    result = 0
-    num = match.group(0).strip().rstrip()
-    for i, c in enumerate(num):
-        if (i + 1) == len(num) or roman_numerals[c] >= roman_numerals[num[i + 1]]:
-            result += roman_numerals[c]
-        else:
-            result -= roman_numerals[c]
-    if int(result) > 39:
-        return num
-    return " " + n2w(str(result)) + " "
+_VALUES = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}
+_MAX_READ = 39
+_ROMAN = re.compile(
+    r"(\b(?!LLC)(?=[MDCLXVI]+\b)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})\b)"
+)
+_LETTER_NAME = re.compile(r"(chữ|chữ cái|kí tự|ký tự)(\s)(\"|\')?([A-Z]+)(\"|\')?" + NOT_WORD)
 
 
-def _not_roman_number(match):
-    return match.group(0).lower()
+def roman_to_int(numeral: str) -> int:
+    """Subtractive notation: a smaller value before a larger one is subtracted."""
+    # Algorithm from https://stackoverflow.com/questions/19308177 (CC BY-SA), see NOTICE.
+    total = 0
+    for index, char in enumerate(numeral):
+        value = _VALUES[char]
+        following = _VALUES[numeral[index + 1]] if index + 1 < len(numeral) else 0
+        total += value if value >= following else -value
+    return total
 
 
-def normalize_roman_numbers(text):
-    text = re.sub(_true_letter_re, _not_roman_number, text)
-    text = re.sub(_roman_number_re, _expand_roman, text)
-    return text
+def _expand(match: re.Match[str]) -> str:
+    numeral = match.group(0).strip()
+    value = roman_to_int(numeral)
+    if value > _MAX_READ:
+        return numeral
+    return f" {number_to_words(str(value))} "
+
+
+def normalize(text: str) -> str:
+    text = _LETTER_NAME.sub(lambda m: m.group(0).lower(), text)
+    return _ROMAN.sub(_expand, text)

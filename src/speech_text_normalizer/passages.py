@@ -1,34 +1,42 @@
+"""Split long text into passages of bounded character length."""
+
 import re
 
+_LINE_BREAKS = re.compile(r"[\n]+")
+_SENTENCE_END = re.compile(r"[.!?]")
 
-def split_text_passages(text, regex, include_split_chars, strip_chars):
-    if include_split_chars:
-        return [e.strip(strip_chars) + d for e, d in zip(re.split(regex, text), re.findall(regex, text)) if e]
-    else:
-        return [e.strip(strip_chars) for e in re.split(regex, text)]
 
-def combine_passages(passages: list, maxLength: int) -> list:
-    if len(passages) <= 1:
-        return passages
-    if len(passages[0]) >= maxLength:
-        return [passages[0]] + combine_passages(passages[1:], maxLength=maxLength)
+def _sentences(passage: str) -> list[str]:
+    parts = _SENTENCE_END.split(passage)
+    delimiters = _SENTENCE_END.findall(passage)
+    return [
+        part.strip(" ") + delimiter
+        for part, delimiter in zip(parts, delimiters, strict=False)
+        if part
+    ]
 
-    if len(passages[0] + passages[1]) <= maxLength:
-        return combine_passages([passages[0] + "\n" + passages[1]]+passages[2:], maxLength=maxLength)
-    else:
-        return [passages[0]] + combine_passages(passages[1:], maxLength=maxLength)
 
-def split_long_passages(passages: list, maxLength: int) -> list:
-    sub_passages = []
+def _combine(passages: list[str], max_length: int) -> list[str]:
+    """Greedily join neighbouring passages with a newline while they fit in `max_length`."""
+    combined: list[str] = []
     for passage in passages:
-        if len(passage) > maxLength:
-            sub_passages.append(split_text_passages(passage,  r'[.!?]', True, ' '))
-        else:
-            sub_passages.append([passage])
-    return sub_passages
+        # the original measured the pair without the joining separator
+        if (
+            combined
+            and len(combined[-1]) < max_length
+            and len(combined[-1] + passage) <= max_length
+        ):
+            combined[-1] = combined[-1] + "\n" + passage
+            continue
+        combined.append(passage)
+    return combined
+
 
 def split_passages(text: str, max_length: int = 1000) -> list[str]:
     """Split text into passages no longer than `max_length` characters where possible."""
-    passages = [p for p in split_text_passages(text, r"[\n]+", False, "\n\t ") if p]
-    pieces = [piece for group in split_long_passages(passages, max_length) for piece in combine_passages(group, max_length)]
-    return combine_passages(pieces, max_length)
+    passages = [p for p in (part.strip("\n\t ") for part in _LINE_BREAKS.split(text)) if p]
+    pieces: list[str] = []
+    for passage in passages:
+        group = _sentences(passage) if len(passage) > max_length else [passage]
+        pieces.extend(_combine(group, max_length))
+    return _combine(pieces, max_length)

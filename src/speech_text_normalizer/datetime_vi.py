@@ -1,191 +1,165 @@
+"""Dates, date ranges, quarters and clock times."""
+
 import re
 
-from speech_text_normalizer.vi_number import number_to_words as n2w
-from speech_text_normalizer.symbols import vietnamese_re, vietnamese_for_date_re
-from speech_text_normalizer.roman import normalize_roman_numbers
+from speech_text_normalizer.roman import normalize as normalize_roman
+from speech_text_normalizer.symbols import NOT_WORD, NOT_WORD_FOR_DATE
+from speech_text_normalizer.vi_number import number_to_words
 
-day_in_month = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+DAYS_IN_MONTH = (31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
+ROMAN_QUARTERS = ("I", "II", "III", "IV")
+_SEPARATOR = r"(\/|-|\.)"
+_DAY_PERIODS = r"(ngày|hôm|sáng|trưa|chiều|tối|đêm|khuya)"
+_QUARTER = r"(\d{1,2}|(I|II|III|IV))"
+_FLAGS = re.IGNORECASE
 
-_date_seperator = r"(\/|-|\.)"
+_QUARTER_YEAR = re.compile(
+    r"(quý)" + NOT_WORD + _QUARTER + _SEPARATOR + r"(\d{4})" + NOT_WORD_FOR_DATE, _FLAGS
+)
+_FULL_DATE = re.compile(
+    r"(ngày)?" + NOT_WORD + r"(\d{1,2})" + _SEPARATOR + r"(\d{1,2})" + _SEPARATOR + r"(\d{4})"
+    + NOT_WORD_FOR_DATE,
+    _FLAGS,
+)  # fmt: skip
+_FULL_DATE_RANGE = re.compile(
+    r"(ngày)?" + NOT_WORD + r"(\d{1,2})(\-)(\d{1,2})" + _SEPARATOR + r"(\d{1,2})" + _SEPARATOR
+    + r"(\d{4})" + NOT_WORD_FOR_DATE,
+    _FLAGS,
+)  # fmt: skip
+_DAY_MONTH = re.compile(
+    _DAY_PERIODS + NOT_WORD + r"(\d{1,2})" + _SEPARATOR + r"(\d{1,2})" + NOT_WORD_FOR_DATE, _FLAGS
+)
+_DAY_MONTH_RANGE = re.compile(
+    r"(ngày)?" + NOT_WORD + r"(\d{1,2})(\-)(\d{1,2})" + _SEPARATOR + r"(\d{1,2})"
+    + NOT_WORD_FOR_DATE,
+    _FLAGS,
+)  # fmt: skip
+_MONTH_YEAR = re.compile(
+    r"(tháng)?" + NOT_WORD + r"(\d{1,2})" + _SEPARATOR + r"(\d{4})" + NOT_WORD_FOR_DATE, _FLAGS
+)
+_MONTH_YEAR_RANGE = re.compile(
+    r"(tháng)?" + NOT_WORD + r"(\d{1,2})(\-)(\d{1,2})" + _SEPARATOR + r"(\d{4})"
+    + NOT_WORD_FOR_DATE,
+    _FLAGS,
+)  # fmt: skip
+_FULL_TIME = re.compile(
+    NOT_WORD + r"(\d{1,2})(g|:|h)(\d{1,2})(p|:|m)(\d{1,2})(s|g)?" + NOT_WORD_FOR_DATE, _FLAGS
+)
+_TIME = re.compile(NOT_WORD + r"(\d{1,2})(g|:|h)(\d{1,2})(p|m)?" + NOT_WORD_FOR_DATE, _FLAGS)
 
-_day_periods = r"(ngày|hôm|sáng|trưa|chiều|tối|đêm|khuya)"
 
-_roman_or_number_quarter_re = r"(\d{1,2}|(I|II|III|IV))"
-
-_quarter_month_year_pattern = r"(quý)" + vietnamese_re + _roman_or_number_quarter_re + \
-    _date_seperator + r"(\d{4})" + vietnamese_for_date_re
-
-_full_date_pattern = r"(ngày)?" + vietnamese_re + r"(\d{1,2})" + _date_seperator + \
-    r"(\d{1,2})" + _date_seperator + r"(\d{4})" + vietnamese_for_date_re
-_full_range_date_pattern = r"(ngày)?" + vietnamese_re + r"(\d{1,2})(\-)(\d{1,2})" + \
-    _date_seperator + r"(\d{1,2})" + _date_seperator + \
-    r"(\d{4})" + vietnamese_for_date_re
-
-_day_month_pattern = _day_periods + vietnamese_re + \
-    r"(\d{1,2})" + _date_seperator + r"(\d{1,2})" + vietnamese_for_date_re
-_range_day_month_pattern = r"(ngày)?" + vietnamese_re + \
-    r"(\d{1,2})(\-)(\d{1,2})" + _date_seperator + \
-    r"(\d{1,2})" + vietnamese_for_date_re
-
-_month_year_pattern = r"(tháng)?" + vietnamese_re + \
-    r"(\d{1,2})" + _date_seperator + r"(\d{4})" + vietnamese_for_date_re
-_range_month_year_pattern = r"(tháng)?" + vietnamese_re + \
-    r"(\d{1,2})(\-)(\d{1,2})" + _date_seperator + \
-    r"(\d{4})" + vietnamese_for_date_re
-
-_full_time_pattern = vietnamese_re + \
-    r"(\d{1,2})(g|:|h)(\d{1,2})(p|:|m)(\d{1,2})(s|g)?" + vietnamese_for_date_re
-_time_pattern = vietnamese_re + \
-    r"(\d{1,2})(g|:|h)(\d{1,2})(p|m)?" + vietnamese_for_date_re
-
-
-def _remove_prefix_zero(text):
-    text = text.strip().rstrip()
-    while len(text) > 0 and text[0] == "0" and (len(text) > 1 and text[1] != ","):
+def remove_leading_zeros(text: str) -> str:
+    """'05' -> '5' and '00' -> '0', but a decimal like '0,5' keeps its zero."""
+    text = text.strip()
+    while len(text) > 1 and text[0] == "0" and text[1] != ",":
         text = text[1:]
-    return text if (len(text) > 0) else "0"
+    return text or "0"
 
 
-def _is_valid_quarter(quarter):
-    return quarter in range(1, 5)
+def _read(number: str) -> str:
+    return number_to_words(remove_leading_zeros(number))
 
 
-def _is_valid_date(day, month):
-    return month in range(1, 13) and day in range(1, day_in_month[month - 1] + 1)
+def _is_valid_date(day: int, month: int) -> bool:
+    return 1 <= month <= len(DAYS_IN_MONTH) and 1 <= day <= DAYS_IN_MONTH[month - 1]
 
 
-def _is_valid_time(hour, minute, second=0):
-    return hour in range(24) and minute in range(60) and second in range(60)
+def _is_valid_time(hour: int, minute: int, second: int = 0) -> bool:
+    return 0 <= hour < 24 and 0 <= minute < 60 and 0 <= second < 60  # noqa: PLR2004
 
 
-def _expand_full_date(match):
-    prefix, space, day, seporator1, month, seporator2, year, suffix = match.groups(
-        0)
-    space = "" if space == 0 else space
-    day = _remove_prefix_zero(day)
-    month = _remove_prefix_zero(month)
-    year = _remove_prefix_zero(year)
-    if not _is_valid_date(int(day), int(month)) or prefix == seporator1:
+def _full_date(match: re.Match[str]) -> str:
+    prefix, space, day, separator, month, _sep, year, suffix = match.groups(default="")
+    if not _is_valid_date(int(day), int(month)) or prefix == separator:
         return match.group(0)
-    return space + " ngày " + n2w(day) + " tháng " + n2w(month) + " năm " + n2w(year) + suffix + " "
+    return f"{space} ngày {_read(day)} tháng {_read(month)} năm {_read(year)}{suffix} "
 
 
-def _expand_range_full_date(match):
-    prefix, space, day_start, hypen, day_end, seporator1, month, seporator2, year, suffix = match.groups(
-        0)
-    space = "" if space == 0 else space
-    day_start = _remove_prefix_zero(day_start)
-    day_end = _remove_prefix_zero(day_end)
-    month = _remove_prefix_zero(month)
-    year = _remove_prefix_zero(year)
-    month = _remove_prefix_zero(month)
-    if not _is_valid_date(int(day_start), int(month)) or not _is_valid_date(int(day_end), int(month)):
+def _full_date_range(match: re.Match[str]) -> str:
+    _prefix, space, start, _dash, end, _sep, month, _sep2, year, suffix = match.groups(default="")
+    if not (_is_valid_date(int(start), int(month)) and _is_valid_date(int(end), int(month))):
         return match.group(0)
-    return space + " ngày " + n2w(day_start) + " đến ngày " + n2w(day_end) + " tháng " + n2w(month) + " năm " + n2w(year) + suffix + " "
+    return (
+        f"{space} ngày {_read(start)} đến ngày {_read(end)} tháng {_read(month)} "
+        f"năm {_read(year)}{suffix} "
+    )
 
 
-def _expand_day_month(match):
-    prefix, space, day, seporator1, month, suffix = match.groups(0)
-    prefix = prefix if prefix.lower() == "ngày" else prefix + " ngày"
-    space = "" if space == 0 else space
-    day = _remove_prefix_zero(day)
-    month = _remove_prefix_zero(month)
-    if not _is_valid_date(int(day), int(month)) or space == seporator1:
+def _day_month(match: re.Match[str]) -> str:
+    prefix, space, day, separator, month, suffix = match.groups(default="")
+    prefix = prefix if prefix.lower() == "ngày" else f"{prefix} ngày"
+    if not _is_valid_date(int(day), int(month)) or space == separator:
         return match.group(0)
-    return space + prefix + space + n2w(day) + " tháng " + n2w(month) + suffix + " "
+    return f"{space}{prefix}{space}{_read(day)} tháng {_read(month)}{suffix} "
 
 
-def _expand_range_day_month(match):
-    prefix, space, day_start, hypen, day_end, seporator1, month, suffix = match.groups(
-        0)
-    space = "" if space == 0 else space
-    day_start = _remove_prefix_zero(day_start)
-    day_end = _remove_prefix_zero(day_end)
-    month = _remove_prefix_zero(month)
-    if not _is_valid_date(int(day_start), int(month)) or not _is_valid_date(int(day_end), int(month)):
+def _day_month_range(match: re.Match[str]) -> str:
+    _prefix, space, start, _dash, end, _sep, month, suffix = match.groups(default="")
+    if not (_is_valid_date(int(start), int(month)) and _is_valid_date(int(end), int(month))):
         return match.group(0)
-    return space + " ngày " + n2w(day_start) + " đến ngày " + n2w(day_end) + " tháng " + n2w(month) + suffix + " "
+    return f"{space} ngày {_read(start)} đến ngày {_read(end)} tháng {_read(month)}{suffix} "
 
 
-def _expand_month_year(match):
-    prefix, space, month, seporator, year, suffix = match.groups(0)
-    space = "" if space == 0 else space
-    month = _remove_prefix_zero(month)
-    year = _remove_prefix_zero(year)
-    if not _is_valid_date(1, int(month)) or space == seporator:
+def _month_year(match: re.Match[str]) -> str:
+    _prefix, space, month, separator, year, suffix = match.groups(default="")
+    if not _is_valid_date(1, int(month)) or space == separator:
         return match.group(0)
-    return space + " tháng " + n2w(month) + " năm " + n2w(year) + suffix + " "
+    return f"{space} tháng {_read(month)} năm {_read(year)}{suffix} "
 
 
-def _expand_quarter_month_year(match):
-    _, space, quarter, _, seporator, year, suffix = match.groups(0)
-    space = "" if space == 0 else space
-    try:
-        quarter = _remove_prefix_zero(quarter)
-        quarter_string = n2w(quarter)
-    except:
-        quarter_string = normalize_roman_numbers(quarter)
-    year = _remove_prefix_zero(year)
-    if quarter not in ["I", "II", "III", "IV"]:
-        if not _is_valid_quarter(int(quarter)) or space == seporator:
+def _month_year_range(match: re.Match[str]) -> str:
+    _prefix, space, start, dash, end, separator, year, suffix = match.groups(default="")
+    valid = _is_valid_date(1, int(start)) and _is_valid_date(1, int(end))
+    if not valid or dash == separator:
+        return match.group(0)
+    return f"{space} tháng {_read(start)} đến tháng {_read(end)} năm {_read(year)}{suffix} "
+
+
+def _quarter_year(match: re.Match[str]) -> str:
+    _word, space, quarter, _roman, separator, year, suffix = match.groups(default="")
+    if quarter in ROMAN_QUARTERS:
+        spoken = normalize_roman(quarter)
+    else:
+        if not 1 <= int(quarter) <= len(ROMAN_QUARTERS) or space == separator:
             return match.group(0)
-    return space + " quý " + quarter_string + " năm " + n2w(year) + suffix + " "
+        spoken = _read(quarter)
+    return f"{space} quý {spoken} năm {_read(year)}{suffix} "
 
 
-def _expand_range_month_year(match):
-    prefix, space, month_start, hypen, month_end, seporator, year, suffix = match.groups(
-        0)
-    space = "" if space == 0 else space
-    month_start = _remove_prefix_zero(month_start)
-    month_end = _remove_prefix_zero(month_end)
-    year = _remove_prefix_zero(year)
-    if not _is_valid_date(1, int(month_start)) or not _is_valid_date(1, int(month_end)) or hypen == seporator:
-        return match.group(0)
-    return space + " tháng " + n2w(month_start) + " đến tháng " + n2w(month_end) + " năm " + n2w(year) + suffix + " "
-
-
-def _expand_time(math):
-    prefix, hour, seporator, minute, suffix, ending_space = math.groups(0)
-    prefix = "" if prefix == 0 else prefix
-    hour = _remove_prefix_zero(hour)
-    minute = _remove_prefix_zero(minute)
+def _time(match: re.Match[str]) -> str:
+    prefix, hour, _sep, minute, _unit, ending = match.groups(default="")
     if not _is_valid_time(int(hour), int(minute)):
-        return math.group(0)
-    return prefix + " " + n2w(hour) + " giờ " + n2w(minute) + " phút" + ending_space + " "
+        return match.group(0)
+    return f"{prefix} {_read(hour)} giờ {_read(minute)} phút{ending} "
 
 
-def _expand_full_time(math):
-    prefix, hour, seporator1, minute, seporator2, second, suffix, ending_space = math.groups(
-        0)
-    prefix = "" if prefix == 0 else prefix
-    hour = _remove_prefix_zero(hour)
-    minute = _remove_prefix_zero(minute)
-    second = _remove_prefix_zero(second)
+def _full_time(match: re.Match[str]) -> str:
+    prefix, hour, _sep, minute, _sep2, second, _unit, ending = match.groups(default="")
     if not _is_valid_time(int(hour), int(minute), int(second)):
-        return math.group(0)
-    return prefix + " " + n2w(hour) + " giờ " + n2w(minute) + " phút " + n2w(second) + " giây" + ending_space + " "
+        return match.group(0)
+    return f"{prefix} {_read(hour)} giờ {_read(minute)} phút {_read(second)} giây{ending} "
 
 
-def normalize_date(text):
-    text = re.sub(_quarter_month_year_pattern, _expand_quarter_month_year,
-                  text, flags=re.IGNORECASE)
-    text = re.sub(_range_month_year_pattern,
-                  _expand_range_month_year, text, flags=re.IGNORECASE)
-    text = re.sub(_full_range_date_pattern,
-                  _expand_range_full_date, text, flags=re.IGNORECASE)
-    text = re.sub(_full_date_pattern, _expand_full_date,
-                  text, flags=re.IGNORECASE)
-    text = re.sub(_month_year_pattern, _expand_month_year,
-                  text, flags=re.IGNORECASE)
-    text = re.sub(_range_day_month_pattern,
-                  _expand_range_day_month, text, flags=re.IGNORECASE)
-    text = re.sub(_day_month_pattern, _expand_day_month,
-                  text, flags=re.IGNORECASE)
+_DATE_RULES = (
+    (_QUARTER_YEAR, _quarter_year),
+    (_MONTH_YEAR_RANGE, _month_year_range),
+    (_FULL_DATE_RANGE, _full_date_range),
+    (_FULL_DATE, _full_date),
+    (_MONTH_YEAR, _month_year),
+    (_DAY_MONTH_RANGE, _day_month_range),
+    (_DAY_MONTH, _day_month),
+)
+
+
+def normalize_date(text: str) -> str:
+    for pattern, expand in _DATE_RULES:
+        text = pattern.sub(expand, text)
     return text
 
 
-def normalize_time(text):
-    text = re.sub(_full_time_pattern, _expand_full_time,
-                  text, flags=re.IGNORECASE)
-    text = re.sub(_time_pattern, _expand_time, text, flags=re.IGNORECASE)
-    return text
+def normalize_time(text: str) -> str:
+    return _TIME.sub(_time, _FULL_TIME.sub(_full_time, text))
+
+
+def normalize(text: str) -> str:
+    return normalize_time(normalize_date(text))

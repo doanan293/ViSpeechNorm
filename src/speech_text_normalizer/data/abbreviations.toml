@@ -1,0 +1,25 @@
+# Short forms expanded before anything else. Matching ignores case.
+[abbreviations]
+"v.v" = " vân vân. "
+"v/v" = "về việc"
+"đ/c" = "địa chỉ"
+"k/g" = "kính gửi"
+"th/g" = "thân gửi"
+"ko" = "không"
+"bit" = "biết"
+"bik" = "biết"
+
+# Currency symbols and codes, matched when they stand apart from letters.
+[currency]
+"$" = "đô la"
+"£" = "bảng"
+"€" = "ơ rô"
+"₩" = "uân"
+"₫" = "đồng"
+"usd" = "đô la"
+"euro" = "ơ rô"
+"eur" = "ơ rô"
+"vnd" = "đồng"
+"đ" = "đồng"
+"¥" = "yên"
+"ndt" = "nhân dân tệ"

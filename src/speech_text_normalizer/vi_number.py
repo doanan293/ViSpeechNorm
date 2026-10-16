@@ -44,7 +44,9 @@ def _below_billion(digits: str, *, leading: bool) -> list[str]:
         value = groups[index]
         if value == 0:
             continue
-        words.extend(_group_words(value, leading=leading and not words and index == len(groups) - 1))
+        words.extend(
+            _group_words(value, leading=leading and not words and index == len(groups) - 1)
+        )
         if SCALES[index]:
             words.append(SCALES[index])
     return words

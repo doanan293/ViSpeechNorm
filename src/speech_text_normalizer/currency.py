@@ -1,42 +1,23 @@
+"""Currency symbols and codes."""
+
 import re
 
-from speech_text_normalizer.symbols import vietnamese_without_num_re
+from speech_text_normalizer._data import table
+from speech_text_normalizer.symbols import NOT_LETTER
 
-_currency_key = {
-    "\$": "đô la",
-    "£": "bảng",
-    "€": "ơ rô",
-    "₩": "uân",
-    "₫": "đồng",
-    "usd": "đô la",
-    "euro": "ơ rô",
-    "eur": "ơ rô",
-    "vnd": "đồng",
-    "đ": "đồng",
-    "¥": "yên",
-    "ndt": "nhân dân tệ",
-}
+_CURRENCY = {key.lower(): value for key, value in table("abbreviations.toml", "currency").items()}
+_PATTERN = re.compile(
+    NOT_LETTER + "(" + "|".join(re.escape(key) for key in _CURRENCY) + ")" + NOT_LETTER,
+    re.IGNORECASE,
+)
 
 
-_currency_combine_regex = "|".join(_currency_key.keys())
-_currency_vi_re = re.compile(vietnamese_without_num_re + r"(" + _currency_combine_regex + ")" + vietnamese_without_num_re, re.IGNORECASE)
-
-
-def _expand_currency(match):
-    prefix, currency, suffix = match.groups(0)
-    prefix = "" if prefix == 0 else prefix
-    suffix = "" if suffix == 0 else suffix
-    if currency == "Đ" and suffix == ".":
+def _expand(match: re.Match[str]) -> str:
+    prefix, currency, suffix = match.group(1), match.group(2), match.group(3)
+    if (currency == "Đ" and suffix == ".") or currency in (prefix, suffix):
         return match.group(0)
-    if suffix == currency or prefix == currency:
-        return match.group(0)
-    if currency.lower() == "$":
-        currency = _currency_key["\$"]
-    elif currency.lower() in _currency_key.keys():
-        currency = _currency_key[currency.lower()]
-    return prefix + currency + suffix
+    return prefix + _CURRENCY.get(currency.lower(), currency) + suffix
 
 
-def normalize_currency_vi(text):
-    text = re.sub(_currency_vi_re, _expand_currency, text)
-    return text
+def normalize(text: str) -> str:
+    return _PATTERN.sub(_expand, text)

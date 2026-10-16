@@ -22,7 +22,10 @@ In requirements.txt, you can add a line containing the GitHub link of the packag
 
 ```python
 from vi_cleaner.vi_cleaner import ViCleaner
-text = "Ngày 01/02 là ngày mùng 1 Tết , tôi thêm 1 tuổi mới,cao thêm 3 cm, được lì xì 1.000.000 đồng."
+
+text = (
+    "Ngày 01/02 là ngày mùng 1 Tết , tôi thêm 1 tuổi mới,cao thêm 3 cm, được lì xì 1.000.000 đồng."
+)
 
 # 1. Normalize text passed to the cleaner
 cleaner = ViCleaner(text)

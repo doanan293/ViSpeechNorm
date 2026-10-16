@@ -2,32 +2,25 @@
 
 import re
 
-from speech_text_normalizer.symbols import (
-    opening_brackets_and_punctutations_re,
-    punctutations_re,
-)
+from speech_text_normalizer.symbols import OPENING_BRACKET_SPACE, SPACE_PUNCTUATION
 
 _REPEATED_SPACE = re.compile(r"(\s)\1+")
 _TABS = re.compile(r"\t+")
-
-
-def _before_punctuation(match: re.Match[str]) -> str:
-    return match.group(2)
-
-
-def _after_bracket(match: re.Match[str]) -> str:
-    return match.group(2) + match.group(1)
+_SPACE_AROUND_NEWLINE = re.compile(r"[ \t]*\n[ \t]*")
+_SPACE_PUNCTUATION = re.compile(SPACE_PUNCTUATION)
+_OPENING_BRACKET_SPACE = re.compile(OPENING_BRACKET_SPACE)
 
 
 def collapse_whitespace(text: str) -> str:
-    """Squeeze repeated whitespace and drop spaces before punctuation or after brackets."""
+    """Squeeze repeated whitespace, drop spaces before punctuation, move spaces before brackets."""
     text = _REPEATED_SPACE.sub(r"\1", text)
-    text = re.sub(punctutations_re, _before_punctuation, text)
-    text = re.sub(opening_brackets_and_punctutations_re, _after_bracket, text)
+    text = _SPACE_PUNCTUATION.sub(r"\2", text)
+    text = _OPENING_BRACKET_SPACE.sub(r"\2\1", text)
     text = _REPEATED_SPACE.sub(r"\1", text)
+    text = _SPACE_AROUND_NEWLINE.sub("\n", text)
     return _TABS.sub(" ", text).strip()
 
 
 def pad(text: str) -> str:
-    """Surround text with single spaces so word-boundary patterns match at both ends."""
+    """Surround text with single spaces so boundary patterns match at both ends."""
     return f" {collapse_whitespace(text)} "

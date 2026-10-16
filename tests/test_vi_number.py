@@ -30,7 +30,11 @@ def test_digits_to_words(digits: str, expected: str) -> None:
 
 @pytest.mark.parametrize(
     ("number", "expected"),
-    [("1.000", "một nghìn"), ("2 000 000 000", "hai tỷ"), ("9.999", "chín nghìn chín trăm chín mươi chín")],
+    [
+        ("1.000", "một nghìn"),
+        ("2 000 000 000", "hai tỷ"),
+        ("9.999", "chín nghìn chín trăm chín mươi chín"),
+    ],
 )
 def test_thousand_separators_are_ignored(number: str, expected: str) -> None:
     assert number_to_words(number) == expected

@@ -6,31 +6,30 @@ from pathlib import Path
 
 import pytest
 
-from speech_text_normalizer import normalize
-from speech_text_normalizer.abbreviations import (
-    normalize_abbreviations_vi,
-    normalize_speacial_symbol_vi,
+from speech_text_normalizer import (
+    abbreviations,
+    acronyms,
+    currency,
+    datetime_vi,
+    letters,
+    measurements,
+    normalize,
+    numbers,
+    roman,
 )
-from speech_text_normalizer.acronyms import spell_acronyms_vi
-from speech_text_normalizer.currency import normalize_currency_vi
-from speech_text_normalizer.datetime_vi import normalize_date, normalize_time
-from speech_text_normalizer.letters import normalize_letter_vi
-from speech_text_normalizer.measurements import normalize_measurement_vi
-from speech_text_normalizer.numbers import normalize_number_vi
-from speech_text_normalizer.roman import normalize_roman_numbers
 from speech_text_normalizer.whitespace import collapse_whitespace, pad
 
 STEP_FUNCTIONS: dict[str, Callable[[str], str]] = {
-    "symbols": normalize_speacial_symbol_vi,
-    "abbreviations": normalize_abbreviations_vi,
-    "acronyms": spell_acronyms_vi,
-    "currency": normalize_currency_vi,
-    "datetime": normalize_date,
-    "time": normalize_time,
-    "letters": normalize_letter_vi,
-    "measurements": normalize_measurement_vi,
-    "numbers": normalize_number_vi,
-    "roman": normalize_roman_numbers,
+    "symbols": abbreviations.expand_special_symbols,
+    "abbreviations": abbreviations.normalize,
+    "acronyms": acronyms.normalize,
+    "currency": currency.normalize,
+    "datetime": datetime_vi.normalize_date,
+    "time": datetime_vi.normalize_time,
+    "letters": letters.normalize,
+    "measurements": measurements.normalize,
+    "numbers": numbers.normalize,
+    "roman": roman.normalize,
     "pipeline": normalize,
 }
 KNOWN_FAILURES: set[tuple[str, str]] = set()

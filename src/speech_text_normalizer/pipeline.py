@@ -4,14 +4,16 @@ import re
 import unicodedata
 from collections.abc import Callable, Sequence
 
-from speech_text_normalizer.abbreviations import normalize_abbreviations_vi
-from speech_text_normalizer.acronyms import spell_acronyms_vi
-from speech_text_normalizer.currency import normalize_currency_vi
-from speech_text_normalizer.datetime_vi import normalize_date, normalize_time
-from speech_text_normalizer.letters import normalize_letter_vi
-from speech_text_normalizer.measurements import normalize_measurement_vi
-from speech_text_normalizer.numbers import normalize_number_vi
-from speech_text_normalizer.roman import normalize_roman_numbers
+from speech_text_normalizer import (
+    abbreviations,
+    acronyms,
+    currency,
+    datetime_vi,
+    letters,
+    measurements,
+    numbers,
+    roman,
+)
 from speech_text_normalizer.whitespace import collapse_whitespace, pad
 
 _SLASH = re.compile(r"/")
@@ -24,10 +26,6 @@ def _unicode(text: str) -> str:
     return unicodedata.normalize("NFC", text)
 
 
-def _datetime(text: str) -> str:
-    return normalize_time(normalize_date(text))
-
-
 def _symbols(text: str) -> str:
     return _INNER_HYPHEN.sub(r"\1 \2", _SLASH.sub(" trên ", text))
 
@@ -38,14 +36,14 @@ def _months(text: str) -> str:
 
 _STEP_FUNCTIONS: dict[str, Callable[[str], str]] = {
     "unicode": _unicode,
-    "abbreviations": normalize_abbreviations_vi,
-    "roman": normalize_roman_numbers,
-    "acronyms": spell_acronyms_vi,
-    "datetime": _datetime,
-    "measurements": normalize_measurement_vi,
-    "currency": normalize_currency_vi,
-    "numbers": normalize_number_vi,
-    "letters": normalize_letter_vi,
+    "abbreviations": abbreviations.normalize,
+    "roman": roman.normalize,
+    "acronyms": acronyms.normalize,
+    "datetime": datetime_vi.normalize,
+    "measurements": measurements.normalize,
+    "currency": currency.normalize,
+    "numbers": numbers.normalize,
+    "letters": letters.normalize,
     "symbols": _symbols,
     "months": _months,
     "lowercase": str.lower,
