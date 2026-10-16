@@ -1,2 +1,14 @@
-.github
-.vscode
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.env
+.idea/
+.vscode/
+*.egg-info/
+dist/
+build/
+local-data/
+checkpoints/
+.ipynb_checkpoints/

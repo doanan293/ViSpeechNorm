@@ -1,0 +1,714 @@
+{
+ "symbols": [
+  {
+   "case": "abbreviation_vi.test_speacial_symbol_cases",
+   "input": "Tôi & em",
+   "expected": "Tôi và em"
+  },
+  {
+   "case": "abbreviation_vi.test_speacial_symbol_cases",
+   "input": "trong@gmail.com",
+   "expected": "trong a còng gmail.com"
+  },
+  {
+   "case": "abbreviation_vi.test_speacial_symbol_cases",
+   "input": "8 + 2",
+   "expected": "8 cộng 2"
+  }
+ ],
+ "abbreviations": [
+  {
+   "case": "abbreviation_vi.test_abbreviation_cases",
+   "input": "em ko bit, sao anh bik",
+   "expected": "em không biết, sao anh biết"
+  },
+  {
+   "case": "abbreviation_vi.test_abbreviation_cases",
+   "input": "v/v học sinh A",
+   "expected": "về việc học sinh A"
+  },
+  {
+   "case": "abbreviation_vi.test_abbreviation_cases",
+   "input": "gà, bò, chó...",
+   "expected": "gà, bò, chó..."
+  },
+  {
+   "case": "abbreviation_vi.test_abbreviation_cases",
+   "input": "K/g anh chị, đ/c mà chị gửi sai thì phải",
+   "expected": "kính gửi anh chị, địa chỉ mà chị gửi sai thì phải"
+  },
+  {
+   "case": "abbreviation_vi.test_abbreviation_cases",
+   "input": "kounde",
+   "expected": "kounde"
+  },
+  {
+   "case": "abbreviation_vi.test_abbreviation_cases",
+   "input": "ko ko kook",
+   "expected": "không không kook"
+  }
+ ],
+ "acronyms": [
+  {
+   "case": "acronym_vi.test_acronym",
+   "input": "UBND TPHCM, TP.HCM, Thành Phố HCM",
+   "expected": "uỷ ban nhân dân thành phố hồ chí minh, thành phố hồ chí minh, Thành Phố hồ chí minh"
+  },
+  {
+   "case": "acronym_vi.test_acronym",
+   "input": "Trường ĐH Quốc tế dành 80% chỉ tiêu xét điểm tốt nghiệp THPT",
+   "expected": "Trường đại học Quốc tế dành 80% chỉ tiêu xét điểm tốt nghiệp trung học phổ thông"
+  },
+  {
+   "case": "acronym_vi.test_acronym",
+   "input": "UBND tỉnh, Trưởng BTC Giải bóng đá trao cho CLB Bắc Kạn",
+   "expected": "uỷ ban nhân dân tỉnh, Trưởng ban tổ chức Giải bóng đá trao cho câu lạc bộ Bắc Kạn"
+  },
+  {
+   "case": "acronym_vi.test_acronym",
+   "input": "TTTM Sài Gòn",
+   "expected": "trung tâm thương mại Sài Gòn"
+  },
+  {
+   "case": "acronym_vi.test_acronym",
+   "input": "WTO, IQ, EQ, BBC, GPRS",
+   "expected": "W T O, I Q, E Q, B B C, G P R S"
+  },
+  {
+   "case": "acronym_vi.test_acronym",
+   "input": "PSG",
+   "expected": "PSG"
+  },
+  {
+   "case": "acronym_vi.test_acronym",
+   "input": "COVID-19",
+   "expected": "cô vít-19"
+  },
+  {
+   "case": "acronym_vi.test_acronym",
+   "input": "có 1-0-2",
+   "expected": "có một không hai"
+  }
+ ],
+ "currency": [
+  {
+   "case": "currency_vi.test_currency",
+   "input": "8usd",
+   "expected": "8đô la"
+  },
+  {
+   "case": "currency_vi.test_currency",
+   "input": "đồng usd có dấu hiệu tăng",
+   "expected": "đồng đô la có dấu hiệu tăng"
+  },
+  {
+   "case": "currency_vi.test_currency",
+   "input": "đồng eur có dấu hiệu giảm",
+   "expected": "đồng ơ rô có dấu hiệu giảm"
+  },
+  {
+   "case": "currency_vi.test_currency",
+   "input": "100 000 VND",
+   "expected": "100 000 đồng"
+  },
+  {
+   "case": "currency_vi.test_currency",
+   "input": "100 euro",
+   "expected": "100 ơ rô"
+  },
+  {
+   "case": "currency_vi.test_currency",
+   "input": "100 $",
+   "expected": "100 đô la"
+  },
+  {
+   "case": "currency_vi.test_currency",
+   "input": "11,085,306 VND",
+   "expected": "11,085,306 đồng"
+  },
+  {
+   "case": "currency_vi.test_currency",
+   "input": "100 000 ndt",
+   "expected": "100 000 nhân dân tệ"
+  },
+  {
+   "case": "currency_vi.test_not_currency",
+   "input": "tháng 8 đến tháng 9",
+   "expected": "tháng 8 đến tháng 9"
+  },
+  {
+   "case": "currency_vi.test_not_currency",
+   "input": "$$$",
+   "expected": "$$$"
+  }
+ ],
+ "datetime": [
+  {
+   "case": "datestime_vi.test_fulldate",
+   "input": "27/02/2001",
+   "expected": "ngày hai mươi bảy tháng hai năm hai nghìn không trăm lẻ một"
+  },
+  {
+   "case": "datestime_vi.test_fulldate",
+   "input": "27.02.2001",
+   "expected": "ngày hai mươi bảy tháng hai năm hai nghìn không trăm lẻ một"
+  },
+  {
+   "case": "datestime_vi.test_fulldate",
+   "input": "27-02-2001",
+   "expected": "ngày hai mươi bảy tháng hai năm hai nghìn không trăm lẻ một"
+  },
+  {
+   "case": "datestime_vi.test_fulldate",
+   "input": "32/02/2001",
+   "expected": "32/02/2001"
+  },
+  {
+   "case": "datestime_vi.test_fulldate",
+   "input": "ngày 27/02/2001",
+   "expected": "ngày hai mươi bảy tháng hai năm hai nghìn không trăm lẻ một"
+  },
+  {
+   "case": "datestime_vi.test_fulldate",
+   "input": "Vào ngày 27/02/2001, tôi sinh ra.",
+   "expected": "Vào ngày hai mươi bảy tháng hai năm hai nghìn không trăm lẻ một, tôi sinh ra."
+  },
+  {
+   "case": "datestime_vi.test_fulldate",
+   "input": "Hôm nay (2/9/2021), tôi đã được đi chơi.",
+   "expected": "Hôm nay (ngày hai tháng chín năm hai nghìn không trăm hai mươi mốt), tôi đã được đi chơi."
+  },
+  {
+   "case": "datestime_vi.test_fulldate_range",
+   "input": "27-28/02/2000",
+   "expected": "ngày hai mươi bảy đến ngày hai mươi tám tháng hai năm hai nghìn"
+  },
+  {
+   "case": "datestime_vi.test_fulldate_range",
+   "input": "ngày 27-28/02/2000",
+   "expected": "ngày hai mươi bảy đến ngày hai mươi tám tháng hai năm hai nghìn"
+  },
+  {
+   "case": "datestime_vi.test_fulldate_range",
+   "input": "Từ ngày 27-28/02/2000, tôi đã được đi chơi.",
+   "expected": "Từ ngày hai mươi bảy đến ngày hai mươi tám tháng hai năm hai nghìn, tôi đã được đi chơi."
+  },
+  {
+   "case": "datestime_vi.test_daymonth",
+   "input": "ngày 27/02",
+   "expected": "ngày hai mươi bảy tháng hai"
+  },
+  {
+   "case": "datestime_vi.test_daymonth",
+   "input": "ngày 27.02",
+   "expected": "ngày hai mươi bảy tháng hai"
+  },
+  {
+   "case": "datestime_vi.test_daymonth",
+   "input": "ngày 27-02",
+   "expected": "ngày hai mươi bảy tháng hai"
+  },
+  {
+   "case": "datestime_vi.test_daymonth",
+   "input": "ngày 32/7",
+   "expected": "ngày 32/7"
+  },
+  {
+   "case": "datestime_vi.test_daymonth",
+   "input": "ngày 27/02",
+   "expected": "ngày hai mươi bảy tháng hai"
+  },
+  {
+   "case": "datestime_vi.test_daymonth",
+   "input": "Ngày sinh của tôi là ngày 27/2.",
+   "expected": "Ngày sinh của tôi là ngày hai mươi bảy tháng hai."
+  },
+  {
+   "case": "datestime_vi.test_daymonth",
+   "input": "0,5-1%",
+   "expected": "0,5-1%"
+  },
+  {
+   "case": "datestime_vi.test_daymonth",
+   "input": "hôm 17-7",
+   "expected": "hôm ngày mười bảy tháng bảy"
+  },
+  {
+   "case": "datestime_vi.test_daymonth",
+   "input": "đêm 17-7",
+   "expected": "đêm ngày mười bảy tháng bảy"
+  },
+  {
+   "case": "datestime_vi.test_daymonth_range",
+   "input": "1-2/12",
+   "expected": "ngày một đến ngày hai tháng mười hai"
+  },
+  {
+   "case": "datestime_vi.test_daymonth_range",
+   "input": "Từ ngày 1-2/09, tôi được nghỉ lễ.",
+   "expected": "Từ ngày một đến ngày hai tháng chín, tôi được nghỉ lễ."
+  },
+  {
+   "case": "datestime_vi.test_daymonth_range",
+   "input": "Từ đêm 16-17.12, có mưa, mưa nhỏ rải rác.",
+   "expected": "Từ đêm ngày mười sáu đến ngày mười bảy tháng mười hai, có mưa, mưa nhỏ rải rác."
+  },
+  {
+   "case": "datestime_vi.test_daymonth_range",
+   "input": "32-33/12",
+   "expected": "32-33/12"
+  },
+  {
+   "case": "datestime_vi.test_monthyear",
+   "input": "02/2000",
+   "expected": "tháng hai năm hai nghìn"
+  },
+  {
+   "case": "datestime_vi.test_monthyear",
+   "input": "tháng 02/2000",
+   "expected": "tháng hai năm hai nghìn"
+  },
+  {
+   "case": "datestime_vi.test_monthyear",
+   "input": "02.2000",
+   "expected": "tháng hai năm hai nghìn"
+  },
+  {
+   "case": "datestime_vi.test_monthyear",
+   "input": "02-2000",
+   "expected": "tháng hai năm hai nghìn"
+  },
+  {
+   "case": "datestime_vi.test_monthyear",
+   "input": "13/2000",
+   "expected": "13/2000"
+  },
+  {
+   "case": "datestime_vi.test_monthyear_range",
+   "input": "02-03/2000",
+   "expected": "tháng hai đến tháng ba năm hai nghìn"
+  },
+  {
+   "case": "datestime_vi.test_monthyear_range",
+   "input": "(02-03/2000)",
+   "expected": "(tháng hai đến tháng ba năm hai nghìn)"
+  },
+  {
+   "case": "datestime_vi.test_monthyear_range",
+   "input": "02-03.2000",
+   "expected": "tháng hai đến tháng ba năm hai nghìn"
+  },
+  {
+   "case": "datestime_vi.test_monthyear_range",
+   "input": "02-03-2000",
+   "expected": "ngày hai tháng ba năm hai nghìn"
+  },
+  {
+   "case": "datestime_vi.test_monthyear_range",
+   "input": "12-13/2000",
+   "expected": "12-13/2000"
+  },
+  {
+   "case": "datestime_vi.test_quartermonthyear",
+   "input": "quý 02/2021",
+   "expected": "quý hai năm hai nghìn không trăm hai mươi mốt"
+  },
+  {
+   "case": "datestime_vi.test_quartermonthyear",
+   "input": "quý 02-2021",
+   "expected": "quý hai năm hai nghìn không trăm hai mươi mốt"
+  },
+  {
+   "case": "datestime_vi.test_quartermonthyear",
+   "input": "quý 02.2021",
+   "expected": "quý hai năm hai nghìn không trăm hai mươi mốt"
+  },
+  {
+   "case": "datestime_vi.test_quartermonthyear",
+   "input": "quý II/2021",
+   "expected": "quý hai năm hai nghìn không trăm hai mươi mốt"
+  },
+  {
+   "case": "datestime_vi.test_quartermonthyear",
+   "input": "quý I-2021",
+   "expected": "quý một năm hai nghìn không trăm hai mươi mốt"
+  },
+  {
+   "case": "datestime_vi.test_quartermonthyear",
+   "input": "quý III.2021",
+   "expected": "quý ba năm hai nghìn không trăm hai mươi mốt"
+  }
+ ],
+ "time": [
+  {
+   "case": "datestime_vi.test_time",
+   "input": "12:00",
+   "expected": "mười hai giờ không phút"
+  },
+  {
+   "case": "datestime_vi.test_time",
+   "input": "12h00",
+   "expected": "mười hai giờ không phút"
+  },
+  {
+   "case": "datestime_vi.test_time",
+   "input": "7h12",
+   "expected": "bảy giờ mười hai phút"
+  },
+  {
+   "case": "datestime_vi.test_time",
+   "input": "17h30p",
+   "expected": "mười bảy giờ ba mươi phút"
+  },
+  {
+   "case": "datestime_vi.test_time",
+   "input": "Vào lúc 12h27, tôi đi học.",
+   "expected": "Vào lúc mười hai giờ hai mươi bảy phút, tôi đi học."
+  },
+  {
+   "case": "datestime_vi.test_time",
+   "input": "25:00",
+   "expected": "25:00"
+  },
+  {
+   "case": "datestime_vi.test_time",
+   "input": "12:61",
+   "expected": "12:61"
+  },
+  {
+   "case": "datestime_vi.test_time",
+   "input": "h12h12",
+   "expected": "h12h12"
+  },
+  {
+   "case": "datestime_vi.test_fulltime",
+   "input": "12:00:00",
+   "expected": "mười hai giờ không phút không giây"
+  },
+  {
+   "case": "datestime_vi.test_fulltime",
+   "input": "12:30:20",
+   "expected": "mười hai giờ ba mươi phút hai mươi giây"
+  },
+  {
+   "case": "datestime_vi.test_fulltime",
+   "input": "26:62:20",
+   "expected": "26:62:20"
+  }
+ ],
+ "pipeline": [
+  {
+   "case": "intergration.test_intergration",
+   "input": "đồng - kim lại quý",
+   "expected": "đồng - kim lại quý"
+  },
+  {
+   "case": "intergration.test_intergration",
+   "input": "đồng-kim lại quý",
+   "expected": "đồng kim lại quý"
+  },
+  {
+   "case": "intergration.test_intergration",
+   "input": "Hội nghị thượng đỉnh G7 sẽ diễn ra từ ngày 26-28/6/2022",
+   "expected": "hội nghị thượng đỉnh gờ bảy sẽ diễn ra từ ngày hai mươi sáu đến ngày hai mươi tám tháng sáu năm hai nghìn không trăm hai mươi hai"
+  },
+  {
+   "case": "month_vi.test_thang_bon_to_thang_tu",
+   "input": "04/2021",
+   "expected": "tháng tư năm hai nghìn không trăm hai mươi mốt"
+  },
+  {
+   "case": "month_vi.test_thang_bon_to_thang_tu",
+   "input": "04.2021",
+   "expected": "tháng tư năm hai nghìn không trăm hai mươi mốt"
+  },
+  {
+   "case": "month_vi.test_thang_bon_to_thang_tu",
+   "input": "04-2021",
+   "expected": "tháng tư năm hai nghìn không trăm hai mươi mốt"
+  },
+  {
+   "case": "month_vi.test_thang_bon_to_thang_tu",
+   "input": "tháng 4 năm nay",
+   "expected": "tháng tư năm nay"
+  },
+  {
+   "case": "month_vi.test_thang_bon_to_thang_tu",
+   "input": "ngày 27/04/2001",
+   "expected": "ngày hai mươi bảy tháng tư năm hai nghìn không trăm lẻ một"
+  },
+  {
+   "case": "month_vi.test_thang_bon_to_thang_tu",
+   "input": "vào ngày 27/04/2001, tôi sinh ra.",
+   "expected": "vào ngày hai mươi bảy tháng tư năm hai nghìn không trăm lẻ một, tôi sinh ra."
+  },
+  {
+   "case": "month_vi.test_thang_bon_to_thang_tu",
+   "input": "hôm nay (2/4/2021), tôi đã được đi chơi.",
+   "expected": "hôm nay (ngày hai tháng tư năm hai nghìn không trăm hai mươi mốt), tôi đã được đi chơi."
+  }
+ ],
+ "letters": [
+  {
+   "case": "letter_vi.test_letter",
+   "input": "kí tự Z, chữ cái 'w', hình chữ S, chữ C viết hoa, chữ c viết thường",
+   "expected": "kí tự dét, chữ cái 'vê kép', hình chữ ét, chữ xê viết hoa, chữ xê viết thường"
+  },
+  {
+   "case": "letter_vi.test_letter",
+   "input": "H 5 N 1",
+   "expected": "hát 5 en nờ 1"
+  },
+  {
+   "case": "letter_vi.test_letter",
+   "input": "Anh Đ. cho biết anh cùng vợ và hai con là F 0",
+   "expected": "Anh đê cho biết anh cùng vợ và hai con là ép 0"
+  },
+  {
+   "case": "letter_vi.test_letter",
+   "input": "máy bay B 52",
+   "expected": "máy bay bê 52"
+  }
+ ],
+ "measurements": [
+  {
+   "case": "measurement_vi.test_measurement",
+   "input": "8cm",
+   "expected": "8 xen ti mét"
+  },
+  {
+   "case": "measurement_vi.test_measurement",
+   "input": "Khối sapphire nặng 310 kg",
+   "expected": "Khối sapphire nặng 310 ki lô gam"
+  },
+  {
+   "case": "measurement_vi.test_measurement",
+   "input": "Hầu hết TV ngày nay đều đạt thông số là 60 Hz và 120 Hz",
+   "expected": "Hầu hết TV ngày nay đều đạt thông số là 60 héc và 120 héc"
+  },
+  {
+   "case": "measurement_vi.test_measurement",
+   "input": "Mỗi lần hiến máu toàn phần không quá 250 ml",
+   "expected": "Mỗi lần hiến máu toàn phần không quá 250 mi li lít"
+  },
+  {
+   "case": "measurement_vi.test_measurement",
+   "input": "Thu hồi hơn 81.000 m2 đất xây dựng đường vành đai, kế bên khu đất 43 ha",
+   "expected": "Thu hồi hơn 81.000 mét vuông đất xây dựng đường vành đai, kế bên khu đất 43 héc ta"
+  },
+  {
+   "case": "measurement_vi.test_measurement",
+   "input": "Lúc 8h",
+   "expected": "Lúc 8 giờ"
+  },
+  {
+   "case": "measurement_vi.test_measurement",
+   "input": "Khoảng 20p",
+   "expected": "Khoảng 20 phút"
+  },
+  {
+   "case": "measurement_vi.test_measurement",
+   "input": "Tôi chỉ mất có 5s",
+   "expected": "Tôi chỉ mất có 5 giây"
+  },
+  {
+   "case": "measurement_vi.test_measurement",
+   "input": "Tôi có RAM 8GB",
+   "expected": "Tôi có RAM 8 gi ga bai"
+  },
+  {
+   "case": "measurement_vi.test_measurement",
+   "input": "gps",
+   "expected": "gps"
+  },
+  {
+   "case": "measurement_vi.test_measurement_with_splash",
+   "input": "Với nồng độ cồn 0,751 mg/l khí thở",
+   "expected": "Với nồng độ cồn 0,751 mi li gam trên lít khí thở"
+  },
+  {
+   "case": "measurement_vi.test_measurement_with_splash",
+   "input": "0,751 mg/L",
+   "expected": "0,751 mi li gam trên lít"
+  },
+  {
+   "case": "measurement_vi.test_measurement_with_splash",
+   "input": "Chạy xe với tốc độ 300 km/h nhanh cỡ nào?",
+   "expected": "Chạy xe với tốc độ 300 ki lô mét trên giờ nhanh cỡ nào?"
+  }
+ ],
+ "numbers": [
+  {
+   "case": "number_vi.test_normal_number_cases",
+   "input": "1",
+   "expected": "một"
+  },
+  {
+   "case": "number_vi.test_normal_number_cases",
+   "input": "-1",
+   "expected": "âm một"
+  },
+  {
+   "case": "number_vi.test_normal_number_cases",
+   "input": "12",
+   "expected": "mười hai"
+  },
+  {
+   "case": "number_vi.test_normal_number_cases",
+   "input": "123",
+   "expected": "một trăm hai mươi ba"
+  },
+  {
+   "case": "number_vi.test_normal_number_cases",
+   "input": "03",
+   "expected": "ba"
+  },
+  {
+   "case": "number_vi.test_normal_number_cases",
+   "input": "Tôi có 9999 cái áo.",
+   "expected": "Tôi có chín nghìn chín trăm chín mươi chín cái áo."
+  },
+  {
+   "case": "number_vi.test_number_with_dot_cases",
+   "input": "1.000",
+   "expected": "một nghìn"
+  },
+  {
+   "case": "number_vi.test_number_with_dot_cases",
+   "input": "-1.000",
+   "expected": "âm một nghìn"
+  },
+  {
+   "case": "number_vi.test_number_with_dot_cases",
+   "input": "1.123",
+   "expected": "một nghìn một trăm hai mươi ba"
+  },
+  {
+   "case": "number_vi.test_number_with_dot_cases",
+   "input": "1.000.000.000",
+   "expected": "một tỷ"
+  },
+  {
+   "case": "number_vi.test_number_with_dot_cases",
+   "input": "Tôi có 9.000.000 đồng.",
+   "expected": "Tôi có chín triệu đồng."
+  },
+  {
+   "case": "number_vi.test_number_with_dot_cases",
+   "input": "Tôi có 9.999 cái áo.",
+   "expected": "Tôi có chín nghìn chín trăm chín mươi chín cái áo."
+  },
+  {
+   "case": "number_vi.test_number_with_space_cases",
+   "input": "1 000",
+   "expected": "một nghìn"
+  },
+  {
+   "case": "number_vi.test_number_with_space_cases",
+   "input": "1 123",
+   "expected": "một nghìn một trăm hai mươi ba"
+  },
+  {
+   "case": "number_vi.test_number_with_space_cases",
+   "input": "2 000 000 000",
+   "expected": "hai tỷ"
+  },
+  {
+   "case": "number_vi.test_number_with_space_cases",
+   "input": "Tôi có 9 000 000 đồng.",
+   "expected": "Tôi có chín triệu đồng."
+  },
+  {
+   "case": "number_vi.test_number_with_space_cases",
+   "input": "Tôi có 9 999 cái áo.",
+   "expected": "Tôi có chín nghìn chín trăm chín mươi chín cái áo."
+  },
+  {
+   "case": "number_vi.test_float_number_cases",
+   "input": "1,23",
+   "expected": "một phẩy hai mươi ba"
+  },
+  {
+   "case": "number_vi.test_float_number_cases",
+   "input": "1,002",
+   "expected": "một phẩy không không hai"
+  },
+  {
+   "case": "number_vi.test_float_number_cases",
+   "input": "0,02",
+   "expected": "không phẩy không hai"
+  },
+  {
+   "case": "number_vi.test_float_number_cases",
+   "input": "-2,7",
+   "expected": "âm hai phẩy bảy"
+  },
+  {
+   "case": "number_vi.test_ordinal_cases",
+   "input": "xếp hạng 1",
+   "expected": "xếp hạng nhất"
+  },
+  {
+   "case": "number_vi.test_ordinal_cases",
+   "input": "về thứ 4",
+   "expected": "về thứ tư"
+  },
+  {
+   "case": "number_vi.test_phone_number_cases",
+   "input": "SĐT: 0987654321",
+   "expected": "SĐT: không chín tám bảy sáu năm bốn ba hai một"
+  },
+  {
+   "case": "number_vi.test_phone_number_cases",
+   "input": "Liên hệ: +84987654321",
+   "expected": "Liên hệ: không chín tám bảy sáu năm bốn ba hai một"
+  },
+  {
+   "case": "number_vi.test_phone_number_cases",
+   "input": "Liên hệ: +84987654321, ĐC: 108 Hùng Vương",
+   "expected": "Liên hệ: không chín tám bảy sáu năm bốn ba hai một, ĐC: một trăm lẻ tám Hùng Vương"
+  },
+  {
+   "case": "number_vi.test_multiphy_number_cases",
+   "input": "Mảnh đất có diện tích 8x8 mét vuông",
+   "expected": "Mảnh đất có diện tích tám nhân tám mét vuông"
+  },
+  {
+   "case": "number_vi.test_multiphy_number_cases",
+   "input": "Hình chữ nhật 5 x 10",
+   "expected": "Hình chữ nhật năm nhân mười"
+  },
+  {
+   "case": "number_vi.test_range_number_cases",
+   "input": "từ 1-2",
+   "expected": "từ một đến hai"
+  },
+  {
+   "case": "number_vi.test_range_number_cases",
+   "input": "còn 1-3",
+   "expected": "còn một đến ba"
+  }
+ ],
+ "roman": [
+  {
+   "case": "number_vi.test_roman_number_cases",
+   "input": "XI",
+   "expected": "mười một"
+  },
+  {
+   "case": "number_vi.test_roman_number_cases",
+   "input": "số I",
+   "expected": "số một"
+  },
+  {
+   "case": "number_vi.test_roman_number_cases",
+   "input": "thế kỉ XXI",
+   "expected": "thế kỉ hai mươi mốt"
+  },
+  {
+   "case": "number_vi.test_roman_number_cases",
+   "input": "chữ V",
+   "expected": "chữ v"
+  }
+ ]
+}

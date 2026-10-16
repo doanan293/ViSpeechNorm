@@ -1,6 +1,46 @@
+[project]
+name = "speech-text-normalizer"
+version = "0.1.0"
+description = "Normalize Vietnamese text into speakable words for text-to-speech"
+readme = "README.md"
+license = "MIT"
+authors = [{ name = "Doan Van An", email = "andoan020903@gmail.com" }]
+requires-python = ">=3.11"
+dependencies = []
+classifiers = ["Natural Language :: Vietnamese", "Topic :: Text Processing :: Linguistic"]
+
+[dependency-groups]
+dev = ["pre-commit", "pyrefly", "pytest", "ruff"]
+
 [build-system]
-requires = [
-    "setuptools>=54",
-    "wheel"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E", "W", "F", "I", "B", "UP", "SIM", "RUF", "PL", "PTH", "N", "C4", "PERF", "RET", "TRY",
+    "ARG", "ERA", "S", "T20", "DTZ", "BLE", "FBT", "TID",
 ]
-build-backend = "setuptools.build_meta"
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "PLR2004", "ARG", "FBT", "PLC0415"]
+"src/speech_text_normalizer/cli.py" = ["T20", "FBT001", "FBT002", "PLR0913", "PLR0917"]
+
+[tool.pyrefly]
+preset = "strict"
+project-includes = ["src", "tests"]
+search-path = ["src", "."]
+python-interpreter-path = ".venv/bin/python"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--strict-markers"
+markers = ["slow: long-running experiments, skipped in CI"]
