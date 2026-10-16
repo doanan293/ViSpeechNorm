@@ -25,4 +25,10 @@ def split_long_passages(passages: list, maxLength: int) -> list:
             sub_passages.append(split_text_passages(passage,  r'[.!?]', True, ' '))
         else:
             sub_passages.append([passage])
-        return sub_passages
+    return sub_passages
+
+def split_passages(text: str, max_length: int = 1000) -> list[str]:
+    """Split text into passages no longer than `max_length` characters where possible."""
+    passages = [p for p in split_text_passages(text, r"[\n]+", False, "\n\t ") if p]
+    pieces = [piece for group in split_long_passages(passages, max_length) for piece in combine_passages(group, max_length)]
+    return combine_passages(pieces, max_length)

@@ -40,3 +40,9 @@ def get_pieces(passage: str, maxLength: int):
             if not punctuations.issuperset(item_chars) and any(map(isTextOnly, item_chars)):
                 flat_list.append(item)
     return flat_list
+
+def split_sentences(text: str, max_length: int = 30) -> list[str]:
+    """Split text into sentence pieces of at most `max_length` words."""
+    text = re.sub(r"(?<![.!?])\n+", ".\n", text)
+    passages = [line.strip() for line in re.split(r"\n+", text)]
+    return [piece for passage in passages for piece in get_pieces(passage, max_length)]

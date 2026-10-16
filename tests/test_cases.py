@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from speech_text_normalizer._legacy_cleaner import ViCleaner
+from speech_text_normalizer import normalize
 from speech_text_normalizer.abbreviations import (
     normalize_abbreviations_vi,
     normalize_speacial_symbol_vi,
@@ -18,8 +18,8 @@ from speech_text_normalizer.letters import normalize_letter_vi
 from speech_text_normalizer.measurements import normalize_measurement_vi
 from speech_text_normalizer.numbers import normalize_number_vi
 from speech_text_normalizer.roman import normalize_roman_numbers
+from speech_text_normalizer.whitespace import collapse_whitespace, pad
 
-CLEANER = ViCleaner("")
 STEP_FUNCTIONS: dict[str, Callable[[str], str]] = {
     "symbols": normalize_speacial_symbol_vi,
     "abbreviations": normalize_abbreviations_vi,
@@ -31,7 +31,7 @@ STEP_FUNCTIONS: dict[str, Callable[[str], str]] = {
     "measurements": normalize_measurement_vi,
     "numbers": normalize_number_vi,
     "roman": normalize_roman_numbers,
-    "pipeline": CLEANER.clean_text,
+    "pipeline": normalize,
 }
 KNOWN_FAILURES = {
     ("letters", "H 5 N 1"),
@@ -57,5 +57,5 @@ CASES = [
 
 @pytest.mark.parametrize(("step", "text", "expected"), CASES)
 def test_step(step: str, text: str, expected: str) -> None:
-    result = STEP_FUNCTIONS[step](CLEANER.clean_basic(text))
-    assert CLEANER.collapse_whitespace(result) == expected
+    result = STEP_FUNCTIONS[step](pad(text))
+    assert collapse_whitespace(result) == expected

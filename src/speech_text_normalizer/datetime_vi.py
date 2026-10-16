@@ -86,7 +86,7 @@ def _expand_range_full_date(match):
 
 def _expand_day_month(match):
     prefix, space, day, seporator1, month, suffix = match.groups(0)
-    prefix = prefix + " ngày" if prefix != "ngày" else prefix
+    prefix = prefix if prefix.lower() == "ngày" else prefix + " ngày"
     space = "" if space == 0 else space
     day = _remove_prefix_zero(day)
     month = _remove_prefix_zero(month)
