@@ -2,7 +2,8 @@ SpeechTextNormalizer includes or adapts work from the following sources.
 
 1. NVIDIA Mellotron / Flowtron, text/acronyms.py
    https://github.com/NVIDIA/mellotron
-   The letter-to-ARPAbet table, the English acronym list and the acronym exception handling in
+   The list of English acronyms that are spelled letter by letter (the [spelled] table in
+   src/speech_text_normalizer/data/acronyms.toml) and the uppercase-word pattern in
    src/speech_text_normalizer/acronyms.py are adapted from that file, which is distributed under
    the following license:
 
