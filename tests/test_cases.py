@@ -33,15 +33,7 @@ STEP_FUNCTIONS: dict[str, Callable[[str], str]] = {
     "roman": normalize_roman_numbers,
     "pipeline": normalize,
 }
-KNOWN_FAILURES = {
-    ("letters", "H 5 N 1"),
-    ("numbers", "-1"),
-    ("numbers", "-1.000"),
-    ("numbers", "1,23"),
-    ("numbers", "1,002"),
-    ("numbers", "0,02"),
-    ("numbers", "-2,7"),
-}
+KNOWN_FAILURES: set[tuple[str, str]] = set()
 CASES = [
     pytest.param(
         step,

@@ -66,15 +66,24 @@ _range_number_re = re.compile(_prefix_range + _number_re + r"(-|\s\-\s)" + _end_
 _special_ordinal_pattern = r"(thứ|hạng)(\s)(1|4)"
 
 
+def read_number(number: str, *, negative: bool = False) -> str:
+    """Read an integer or a decimal with a comma ("2,07" -> "hai phẩy không bảy")."""
+    whole, _, fraction = number.partition(",")
+    words = n2w(whole)
+    if fraction:
+        zeros = len(fraction) - len(fraction.lstrip("0"))
+        rest = fraction[zeros:]
+        words += " phẩy " + " ".join(["không"] * zeros + ([n2w(rest)] if rest else []))
+    return ("âm " if negative else "") + words
+
+
 def _expand_number(match):
     prefix, negative_symbol, number = match.groups(0)
     number = _remove_prefix_zero(number)
     if prefix in vietnamese_set:
         negative_symbol = "" if negative_symbol == 0 else negative_symbol
-        return prefix + " " + negative_symbol + n2w(number) + " "
-    else:
-        number = "-" + number if negative_symbol == "-" else number
-        return prefix + " " + n2w(number) + " "
+        return prefix + " " + negative_symbol + read_number(number) + " "
+    return prefix + " " + read_number(number, negative=negative_symbol == "-") + " "
 
 
 def _expand_phone(match):
@@ -88,9 +97,9 @@ def _expand_range(match):
     if prefix1 in vietnamese_set:
         return match.group(0)
     else:
-        number_start = "-" + number_start if negative_symbol1 == "-" else number_start
-        number_end = "-" + number_end if negative_symbol2 == "-" else number_end
-        return prefix0 + prefix1 + n2w(number_start) + " đến " + n2w(number_end) + ending
+        start = read_number(number_start, negative=negative_symbol1 == "-")
+        end = read_number(number_end, negative=negative_symbol2 == "-")
+        return prefix0 + prefix1 + start + " đến " + end + ending
 
 
 def _expand_ordinal(match):
