@@ -2,7 +2,7 @@
 
 import re
 
-from speech_text_normalizer.symbols import PUNCTUATION
+from vi_speech_norm.symbols import PUNCTUATION
 
 _SENTENCE_END = re.compile(r"[.!?]")
 _CLAUSE_END = re.compile(r"[?!.,:;-]")

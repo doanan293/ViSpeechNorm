@@ -1,6 +1,6 @@
-# SpeechTextNormalizer
+# ViSpeechNorm
 
-[![CI](https://github.com/doanan293/SpeechTextNormalizer/actions/workflows/ci.yml/badge.svg)](https://github.com/doanan293/SpeechTextNormalizer/actions/workflows/ci.yml)
+[![CI](https://github.com/doanan293/ViSpeechNorm/actions/workflows/ci.yml/badge.svg)](https://github.com/doanan293/ViSpeechNorm/actions/workflows/ci.yml)
 
 Rewrites Vietnamese text into the words a text-to-speech engine should say: dates, times, numbers, money, units, acronyms, Roman numerals and single letters. Pure Python, no runtime dependencies.
 
@@ -35,18 +35,18 @@ flowchart LR
 
 - `pipeline.py` runs the steps in one fixed order, declared once in `STEPS`. You can run a subset with `steps=[...]`, and they still run in that order.
 - Each step is a small module with a `normalize(text)` function. Regular expressions are compiled once at import.
-- Lookup tables for abbreviations, acronyms, currencies and units live in TOML files under `src/speech_text_normalizer/data/`, so adding a word does not need a code change.
+- Lookup tables for abbreviations, acronyms, currencies and units live in TOML files under `src/vi_speech_norm/data/`, so adding a word does not need a code change.
 - `vi_number.py` reads whole numbers by place value ("một nghìn không trăm lẻ một") or digit by digit for phone numbers.
 - `split_sentences` and `split_passages` cut long text into pieces a TTS model can handle.
 
 ## Quickstart
 
 ```bash
-uv add git+https://github.com/doanan293/SpeechTextNormalizer
+uv add git+https://github.com/doanan293/ViSpeechNorm
 ```
 
 ```python
-from speech_text_normalizer import normalize, split_sentences
+from vi_speech_norm import normalize, split_sentences
 
 text = (
     "Ngày 01/02 là ngày mùng 1 Tết , tôi thêm 1 tuổi mới,cao thêm 3 cm, được lì xì 1.000.000 đồng."
@@ -64,7 +64,7 @@ print(split_sentences("Câu một rất ngắn. Câu hai cũng ngắn! Câu ba t
 To work on the code:
 
 ```bash
-git clone https://github.com/doanan293/SpeechTextNormalizer && cd SpeechTextNormalizer
+git clone https://github.com/doanan293/ViSpeechNorm && cd ViSpeechNorm
 uv sync
 uv run pytest
 ```

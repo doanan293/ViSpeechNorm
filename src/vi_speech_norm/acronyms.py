@@ -2,7 +2,7 @@
 
 import re
 
-from speech_text_normalizer._data import table, word_list
+from vi_speech_norm._data import table, word_list
 
 _SPOKEN = [
     (re.compile(r"\b" + re.escape(key) + r"\b", re.IGNORECASE), value)

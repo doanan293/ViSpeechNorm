@@ -1,6 +1,6 @@
 import pytest
 
-from speech_text_normalizer import STEPS, normalize, split_passages, split_sentences
+from vi_speech_norm import STEPS, normalize, split_passages, split_sentences
 
 README_INPUT = (
     "Ngày 01/02 là ngày mùng 1 Tết , tôi thêm 1 tuổi mới,cao thêm 3 cm, được lì xì 1.000.000 đồng."

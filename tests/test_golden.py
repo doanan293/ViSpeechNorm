@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from speech_text_normalizer import normalize
+from vi_speech_norm import normalize
 
 GOLDEN = Path(__file__).parent / "golden"
 

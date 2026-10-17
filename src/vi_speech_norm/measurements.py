@@ -2,8 +2,8 @@
 
 import re
 
-from speech_text_normalizer._data import table
-from speech_text_normalizer.symbols import NOT_LETTER, NOT_WORD
+from vi_speech_norm._data import table
+from vi_speech_norm.symbols import NOT_LETTER, NOT_WORD
 
 _UNITS = table("units.toml", "units")
 _UNIT_ALTERNATION = "(" + "|".join(re.escape(unit) for unit in _UNITS) + ")"

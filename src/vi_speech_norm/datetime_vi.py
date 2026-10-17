@@ -2,9 +2,9 @@
 
 import re
 
-from speech_text_normalizer.roman import normalize as normalize_roman
-from speech_text_normalizer.symbols import NOT_WORD, NOT_WORD_FOR_DATE
-from speech_text_normalizer.vi_number import number_to_words
+from vi_speech_norm.roman import normalize as normalize_roman
+from vi_speech_norm.symbols import NOT_WORD, NOT_WORD_FOR_DATE
+from vi_speech_norm.vi_number import number_to_words
 
 DAYS_IN_MONTH = (31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 ROMAN_QUARTERS = ("I", "II", "III", "IV")

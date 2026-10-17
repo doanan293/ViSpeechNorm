@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pytest
 
-from speech_text_normalizer.vi_number import digits_to_words, number_to_words
+from vi_speech_norm.vi_number import digits_to_words, number_to_words
 
 GOLDEN = json.loads((Path(__file__).parent / "golden" / "numbers.json").read_text())
 INTEGERS = sorted((k, v) for k, v in GOLDEN["n2w"].items() if k != "0")

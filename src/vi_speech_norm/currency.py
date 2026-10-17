@@ -2,8 +2,8 @@
 
 import re
 
-from speech_text_normalizer._data import table
-from speech_text_normalizer.symbols import NOT_LETTER
+from vi_speech_norm._data import table
+from vi_speech_norm.symbols import NOT_LETTER
 
 _CURRENCY = {key.lower(): value for key, value in table("abbreviations.toml", "currency").items()}
 _PATTERN = re.compile(

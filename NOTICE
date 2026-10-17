@@ -1,10 +1,10 @@
-SpeechTextNormalizer includes or adapts work from the following sources.
+ViSpeechNorm includes or adapts work from the following sources.
 
 1. NVIDIA Mellotron / Flowtron, text/acronyms.py
    https://github.com/NVIDIA/mellotron
    The list of English acronyms that are spelled letter by letter (the [spelled] table in
-   src/speech_text_normalizer/data/acronyms.toml) and the uppercase-word pattern in
-   src/speech_text_normalizer/acronyms.py are adapted from that file, which is distributed under
+   src/vi_speech_norm/data/acronyms.toml) and the uppercase-word pattern in
+   src/vi_speech_norm/acronyms.py are adapted from that file, which is distributed under
    the following license:
 
    BSD 3-Clause License
@@ -41,10 +41,10 @@ SpeechTextNormalizer includes or adapts work from the following sources.
    https://github.com/keithito/tacotron
    The step-by-step cleaner design follows that file.
 
-3. Roman numeral conversion in src/speech_text_normalizer/roman.py follows a Stack Overflow answer
+3. Roman numeral conversion in src/vi_speech_norm/roman.py follows a Stack Overflow answer
    (CC BY-SA): https://stackoverflow.com/questions/19308177/converting-roman-numerals-to-integers-in-python
 
-4. Number readings in src/speech_text_normalizer/vi_number.py are an independent implementation.
+4. Number readings in src/vi_speech_norm/vi_number.py are an independent implementation.
    Its tests compare against readings produced by vietnam-number by Nguyễn Hoài Thương
    (https://github.com/ngthuong45/vietnam-number), which earlier versions of this project
    bundled. No code from vietnam-number is included.

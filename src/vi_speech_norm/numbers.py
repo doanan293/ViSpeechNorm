@@ -2,9 +2,9 @@
 
 import re
 
-from speech_text_normalizer.datetime_vi import remove_leading_zeros
-from speech_text_normalizer.symbols import NOT_LETTER, WORD_CHARS
-from speech_text_normalizer.vi_number import digits_to_words, number_to_words
+from vi_speech_norm.datetime_vi import remove_leading_zeros
+from vi_speech_norm.symbols import NOT_LETTER, WORD_CHARS
+from vi_speech_norm.vi_number import digits_to_words, number_to_words
 
 _PLAIN = r"\d+"
 _DECIMAL = r"\d+,\d+"

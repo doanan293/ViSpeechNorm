@@ -1,5 +1,5 @@
 [project]
-name = "speech-text-normalizer"
+name = "vi-speech-norm"
 version = "0.1.0"
 description = "Normalize Vietnamese text into speakable words for text-to-speech"
 readme = "README.md"
@@ -32,7 +32,7 @@ ban-relative-imports = "all"
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**" = ["S101", "PLR2004", "ARG", "FBT", "PLC0415"]
-"src/speech_text_normalizer/cli.py" = ["T20", "FBT001", "FBT002", "PLR0913", "PLR0917"]
+"src/vi_speech_norm/cli.py" = ["T20", "FBT001", "FBT002", "PLR0913", "PLR0917"]
 
 [tool.pyrefly]
 preset = "strict"

@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from speech_text_normalizer import (
+from vi_speech_norm import (
     abbreviations,
     acronyms,
     currency,
@@ -17,7 +17,7 @@ from speech_text_normalizer import (
     numbers,
     roman,
 )
-from speech_text_normalizer.whitespace import collapse_whitespace, pad
+from vi_speech_norm.whitespace import collapse_whitespace, pad
 
 STEP_FUNCTIONS: dict[str, Callable[[str], str]] = {
     "symbols": abbreviations.expand_special_symbols,

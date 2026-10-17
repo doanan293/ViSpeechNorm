@@ -2,7 +2,7 @@
 
 import re
 
-from speech_text_normalizer.symbols import OPENING_BRACKET_SPACE, SPACE_PUNCTUATION
+from vi_speech_norm.symbols import OPENING_BRACKET_SPACE, SPACE_PUNCTUATION
 
 _REPEATED_SPACE = re.compile(r"(\s)\1+")
 _TABS = re.compile(r"\t+")

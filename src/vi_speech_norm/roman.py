@@ -2,8 +2,8 @@
 
 import re
 
-from speech_text_normalizer.symbols import NOT_WORD
-from speech_text_normalizer.vi_number import number_to_words
+from vi_speech_norm.symbols import NOT_WORD
+from vi_speech_norm.vi_number import number_to_words
 
 _VALUES = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}
 _MAX_READ = 39

@@ -2,7 +2,7 @@
 
 import re
 
-from speech_text_normalizer._data import table
+from vi_speech_norm._data import table
 
 _ABBREVIATIONS = {
     key.lower(): value for key, value in table("abbreviations.toml", "abbreviations").items()

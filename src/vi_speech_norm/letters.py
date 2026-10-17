@@ -2,7 +2,7 @@
 
 import re
 
-from speech_text_normalizer.symbols import WORD_CHARS
+from vi_speech_norm.symbols import WORD_CHARS
 
 _LETTER_NAMES = {
     "a": "a", "b": "bê", "c": "xê", "d": "dê", "đ": "đê", "f": "ép", "g": "gờ", "h": "hát",
